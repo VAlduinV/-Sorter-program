@@ -1,4 +1,5 @@
 import os
+import sys
 
 print(
     '''\n
@@ -44,8 +45,14 @@ def normalize(main_path):
     return main_path
 
 
-main_path = r'C:\Users\prime\PycharmProjects\Мотлох'
+# main_path = sys.argv[1]
+# Отримую таку помилку чому ?
+#     main_path = sys.argv[1]
+#                 ~~~~~~~~^^^
+# IndexError: list index out of range
+main_path = input("Введіть шлях до папки: ")
 normalize(main_path)
+
 # os.mkdir(main_path + '\\Мотлох')
 
 extensions = {  # імена ключів будуть іменами папок!
