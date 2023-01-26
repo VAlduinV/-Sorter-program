@@ -1,4 +1,6 @@
 import os
+import sys
+from pathlib import Path
 
 print(
     '''\n
@@ -23,11 +25,9 @@ Instructions:
 (simple words: метод, який сканує директорію)
 ''')
 
-
 CYRILLIC_SYMBOLS = "абвгдеёжзийклмнопрстуфхцчшщъыьэюяєіїґ_"
 TRANSLATION = ("a", "b", "v", "g", "d", "e", "e", "j", "z", "i", "j", "k", "l", "m", "n", "o", "p", "r", "s", "t", "u",
                "f", "h", "ts", "ch", "sh", "sch", "", "y", "", "e", "yu", "ya", "je", "i", "ji", "g", "_")
-
 
 TRANS = {}
 for c, l in zip(CYRILLIC_SYMBOLS, TRANSLATION):
@@ -35,14 +35,14 @@ for c, l in zip(CYRILLIC_SYMBOLS, TRANSLATION):
     TRANS[ord(c.upper())] = l.upper()
 
 
-def normalize(main_path):
+def normalize(transliteration):
     for k, v in TRANS.items():
-        main_path = main_path.replace(chr(k), v)
+        transliteration = transliteration.replace(chr(k), v)
 
-    return main_path
+    return transliteration
 
 
-main_path = input("Введіть шлях до папки: ")
+# main_path = sys.argv[1]
 # os.mkdir(main_path + '\\Мотлох')
 
 extensions = {  # імена ключів будуть іменами папок!
@@ -98,7 +98,7 @@ def create_folders_from_list(folder_path, folder_names):
 
 
 def get_subfolder_paths(folder_path) -> list:  # Отримуємо шляхи підпапок та файлів
-    subfolder_paths = [f.path for f in os.scandir(folder_path) if f.is_dir()]
+    subfolder_paths = [f.path for f in os.scandir(Path(folder_path.glob("**/*"))) if f.is_dir()]
 
     return subfolder_paths
 
@@ -145,7 +145,30 @@ def remove_empty_folders(folder_path):  # Функція видалення по
             os.rmdir(p)
 
 
+def choose(fnc_argument):
+    match fnc_argument:
+        case 0:
+            print(normalize(main_path))
+        case 1:
+            print("Файли відсортовані")
+            sort_files(main_path)
+        case 2:
+            print("Программа завершена")
+            sys.exit(0)
+        case _:
+            print("Uknown command")
+
+
 if __name__ == "__main__":
-    normalize(main_path)
-    create_folders_from_list(main_path, extensions)
-    sort_files(main_path)
+    print("""
+        Client operating modes:
+        0: function normalize(main_path)
+        1: function sort_files(main_path)
+        2: function exit()
+    """)
+    main_path = input("Введіть шлях до папки: ")
+    while True:
+        argument = int(input("Оберіть кейс для роботи зі скриптом: "))
+        print("-" * 50)
+        choose(argument)
+        print("-" * 50)
