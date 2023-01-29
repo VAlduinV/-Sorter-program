@@ -98,7 +98,7 @@ def create_folders_from_list(folder_path, folder_names):
 
 
 def get_subfolder_paths(folder_path) -> list:  # Отримуємо шляхи підпапок та файлів
-    subfolder_paths = [f.path for f in os.scandir(Path(folder_path.glob("**/*"))) if f.is_dir()]
+    subfolder_paths = [f.path for f in os.scandir(folder_path) if f.is_dir()]
 
     return subfolder_paths
 
@@ -172,3 +172,4 @@ if __name__ == "__main__":
         print("-" * 50)
         choose(argument)
         print("-" * 50)
+
