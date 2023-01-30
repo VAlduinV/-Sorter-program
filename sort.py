@@ -1,6 +1,6 @@
 import os
 import sys
-from pathlib import Path
+
 
 print(
     '''\n
@@ -41,9 +41,6 @@ def normalize(transliteration):
 
     return transliteration
 
-
-# main_path = sys.argv[1]
-# os.mkdir(main_path + '\\Мотлох')
 
 extensions = {  # імена ключів будуть іменами папок!
 
@@ -172,4 +169,3 @@ if __name__ == "__main__":
         print("-" * 50)
         choose(argument)
         print("-" * 50)
-
